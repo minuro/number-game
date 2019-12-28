@@ -11,7 +11,7 @@
         <AlertArea alert-type="error" v-bind:message="errorMessage"/>
       </v-flex>
       <v-flex xs12>
-        <h1>４桁の数字を入力してください{{enemyNum}}</h1>
+        <h1>４桁の数字を入力してください</h1>
       </v-flex>
       <v-flex xs12 mt-3>
         <router-link :to="{ name: 'top' }">

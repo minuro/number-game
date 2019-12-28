@@ -1,52 +1,52 @@
 <template>
-<v-container text-center>
-  <v-layout row wrap justify-center>
-    <v-flex xs12>
-      <v-alert
-      border="left"
-      colored-border
-      type="info"
-      elevation="2"
-      v-if="infoMessage"
-      >
-        {{infoMessage}}
-      </v-alert>
-      <v-alert
-      border="left"
-      colored-border
-      type="error"
-      elevation="2"
-      v-if="errorMessage"
-      >
-        {{errorMessage}}
-      </v-alert>
-    </v-flex>
-    <v-flex xs12>
-      <h1>４桁の数字を入力してください。{{enemyNum}}</h1>
-    </v-flex>
-    <v-flex xs12 mt-3>
-      <router-link :to="{ name: 'top' }">
-        <v-btn width="10rem" color="info" @click="clear">トップへ</v-btn>
-      </router-link>
-    </v-flex>
-    <v-flex xs6 sm4 md2 mt-10>
-      <v-text-field 
-      class="display-1"
-      maxlength="4" 
-      solo 
-      single-line
-      v-model="inputNum"
-      @keyup.enter="submit"
-      :disabled="isFinished"
-      >
-      </v-text-field>
-      <v-btn width="10rem" color="info" @click="submit" :disabled="isFinished">決定</v-btn>
-    </v-flex>
-    <v-flex xs12>
-      <HintList/>
-    </v-flex>
-  </v-layout>
-</v-container>
+  <v-container text-center>
+    <v-layout row wrap justify-center>
+      <v-flex xs12>
+        <v-alert
+        border="left"
+        colored-border
+        type="info"
+        elevation="2"
+        v-if="infoMessage"
+        >
+          {{infoMessage}}
+        </v-alert>
+        <v-alert
+        border="left"
+        colored-border
+        type="error"
+        elevation="2"
+        v-if="errorMessage"
+        >
+          {{errorMessage}}
+        </v-alert>
+      </v-flex>
+      <v-flex xs12>
+        <h1>４桁の数字を入力してください</h1>
+      </v-flex>
+      <v-flex xs12 mt-3>
+        <router-link :to="{ name: 'top' }">
+          <v-btn width="10rem" color="info" @click="clear">トップへ</v-btn>
+        </router-link>
+      </v-flex>
+      <v-flex xs6 sm4 md2 mt-10>
+        <v-text-field 
+        class="display-1"
+        maxlength="4" 
+        solo 
+        single-line
+        v-model="inputNum"
+        @keyup.enter="submit"
+        :disabled="isFinished"
+        >
+        </v-text-field>
+        <v-btn width="10rem" color="info" @click="submit" :disabled="isFinished">決定</v-btn>
+      </v-flex>
+      <v-flex xs12>
+        <HintList/>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>

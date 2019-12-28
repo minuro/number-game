@@ -1,15 +1,11 @@
 <template>
-  <v-container text-center>
-    <v-layout wrap column justify-center>
-      <v-flex xs12>
-        <HintListItem 
-        v-for="hint in $store.state.hints" 
-        :key="hint.id"
-        v-bind="hint"
-        />
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <div>
+    <HintListItem 
+    v-for="hint in $store.state.hints" 
+    :key="hint.id"
+    v-bind="hint"
+    />
+  </div>
 </template>
 
 <script>

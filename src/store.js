@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     hints: [],
-    histories: []
+    histories: [],
+    roomID: ''
   },
   mutations: {
     addHint(state, hint){
@@ -19,6 +20,10 @@ export default new Vuex.Store({
     addHistory(state, history){
       history.id = state.histories.length + 1
       state.histories.push(history)
+    },
+    setRoomID(state, roomID){
+      state.roomID = roomID
+      console.log(roomID)
     }
   },
   actions: {
@@ -30,6 +35,10 @@ export default new Vuex.Store({
     },
     addHistory({commit}, history){
       commit('addHistory', history)
+    },
+    setRoomID({commit}, roomID){
+      console.log(roomID)
+      commit('setRoomID', roomID)
     }
   },
   getters: {

@@ -7,8 +7,8 @@
       </Modal>
 
       <v-flex xs12>
-        <AlertArea alert-type="info" v-bind:message="infoMessage"/>
-        <AlertArea alert-type="error" v-bind:message="errorMessage"/>
+        <AlertArea alert-type="info" :message="infoMessage"/>
+        <AlertArea alert-type="error" :message="errorMessage"/>
       </v-flex>
       <v-flex xs12>
         <h1>４桁の数字を入力してください</h1>

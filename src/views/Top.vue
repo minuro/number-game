@@ -11,7 +11,7 @@
       </v-flex>
       <v-flex xs12 mt-3>
         <router-link :to="{ name: 'multitop' }">
-          <v-btn width="10rem" color="info" :disabled="true">マルチ</v-btn>
+          <v-btn width="10rem" color="info" :disabled="false">マルチ</v-btn>
         </router-link>
         <br>※準備中
       </v-flex>

@@ -9,7 +9,7 @@
           <v-btn width="10rem" color="info">トップへ</v-btn>
         </router-link>
       </v-flex>
-      <v-flex xs12>
+      <v-flex xs12 mt-3>
         <HistoryList/>
       </v-flex>
     </v-layout>

@@ -9,12 +9,12 @@
           <v-btn width="10rem" color="info">ソロ</v-btn>
         </router-link>
       </v-flex>
-      <v-flex xs12 mt-3>
+      <!-- <v-flex xs12 mt-3>
         <router-link :to="{ name: 'multitop' }">
-          <v-btn width="10rem" color="info" :disabled="true">マルチ</v-btn>
+          <v-btn width="10rem" color="info" :disabled="false">マルチ</v-btn>
         </router-link>
         <br>※準備中
-      </v-flex>
+      </v-flex> -->
       <v-flex xs12 mt-3>
         <router-link :to="{ name: 'history' }">
           <v-btn width="10rem" color="info">ソロ履歴</v-btn>

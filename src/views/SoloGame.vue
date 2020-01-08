@@ -1,25 +1,14 @@
 <template>
   <v-container text-center>
     <v-layout row wrap justify-center>
+      <Modal @close="closeModal" v-if="modal">
+        <p>{{modalMessage}}</p>
+        <v-btn color="info" @click="closeModal">閉じる</v-btn>
+      </Modal>
+
       <v-flex xs12>
-        <v-alert
-        border="left"
-        colored-border
-        type="info"
-        elevation="2"
-        v-if="infoMessage"
-        >
-          {{infoMessage}}
-        </v-alert>
-        <v-alert
-        border="left"
-        colored-border
-        type="error"
-        elevation="2"
-        v-if="errorMessage"
-        >
-          {{errorMessage}}
-        </v-alert>
+        <AlertArea alert-type="info" :message="infoMessage"/>
+        <AlertArea alert-type="error" :message="errorMessage"/>
       </v-flex>
       <v-flex xs12>
         <h1>４桁の数字を入力してください</h1>
@@ -30,19 +19,9 @@
         </router-link>
       </v-flex>
       <v-flex xs6 sm4 md2 mt-10>
-        <v-text-field 
-        class="display-1"
-        maxlength="4" 
-        solo 
-        single-line
-        v-model="inputNum"
-        @keyup.enter="submit"
-        :disabled="isFinished"
-        >
-        </v-text-field>
-        <v-btn width="10rem" color="info" @click="submit" :disabled="isFinished">決定</v-btn>
+        <NumberInput ref="numberInput" @submit="submit" :isFinished="isFinished" />
       </v-flex>
-      <v-flex xs12>
+      <v-flex xs12 mt-3>
         <HintList/>
       </v-flex>
     </v-layout>
@@ -51,37 +30,48 @@
 
 <script>
 import HintList from '../components/HintList'
+import AlertArea from '../components/AlertArea'
+import NumberInput from '../components/NumberInput'
+import Modal from '../components/Modal'
+import Util from '../js/util'
 import {mapActions} from 'vuex'
 import {mapGetters} from 'vuex'
 
 export default {
   components: {
-    HintList
+    HintList,
+    AlertArea,
+    NumberInput,
+    Modal
   },
+  mixins: [Util],
   data() {
     return {
       hint: {},
-      inputNum: '',
       enemyNum: '',
       infoMessage: '',
       errorMessage: '',
-      isFinished: false
+      isFinished: false,
+      modalMessage: '',
+      modal: false,
     }
   },
   methods: {
-    submit(){
+    submit(inputNum){
       this.clearMessage()
-      if(this.inputCheck(this.inputNum)){
-        this.hint.num = this.inputNum
-        this.hint.blow = this.countBlow(this.inputNum)
-        this.hint.hit = this.countHit(this.inputNum)
-        this.infoMessage = '入力：' + this.hint.num + ',  blow：' + this.hint.blow + ',  hit：' + this.hint.hit
+      this.errorMessage = this.checkInputNum(inputNum)
+      if(!this.errorMessage){
+        this.hint = this.makeHint(this.enemyNum, inputNum)
+        this.infoMessage = this.makeInfoMessage(this.hint)
         this.addHint(this.hint)
-        this.inputNum = ''
+        this.$refs.numberInput.clear()
       }
-      if(this.checkFinish()){
+      if(this.checkFinish(this.hint)){
+        this.isFinished = true
         this.addHistory({answer: this.enemyNum, count: this.hintCount})
-        alert("おめでとう！\n答え：" + this.enemyNum + '\n入力回数：' + this.hintCount)
+        //alert("おめでとう！\n答え：" + this.enemyNum + '\n入力回数：' + this.hintCount)
+        this.modalMessage = "おめでとう！\n答え：" + this.enemyNum + '\n入力回数：' + this.hintCount
+        this.openModal()
       }
       this.hint = {}
     },
@@ -89,80 +79,20 @@ export default {
       this.clearMessage()
       this.clearHint()
     },
-    inputCheck(num){
-      if(!num){
-        this.errorMessage = '数字を入力してください'
-        return false
-      }
-      if(num.length != 4){
-        this.errorMessage = '4文字で入力してください'
-        return false
-      }
-      if(/\D/g.test(num)){
-        this.errorMessage = '数字を入力してください'
-        return false
-      }
-      if(!this.onlyCheck(num)){
-        this.errorMessage = '同じ数字は一つまでです'
-        return false
-      }
-      
-      return true
-    },
-    onlyCheck(num){
-      for(let i = 0; i < 10; i++){
-        if((num.split(i).length - 1) > 1) {
-          return false
-        }
-      }
-      return true
-    },
-    validate() { 
-      this.inputNum = this.inputNum.replace(/\D/g, '')
-    },
     clearMessage(){
       this.infoMessage = ''
       this.errorMessage = ''
     },
-    makeEnemy(){
-      let isOnly = false
-      let tempNum = ''
-      while(!isOnly){
-        tempNum = String(Math.floor(Math.random() * 10000))
-        tempNum = ('0000' + tempNum).slice(-4)
-        isOnly = this.onlyCheck(tempNum)
-      }
-      this.enemyNum = tempNum
+    openModal() {
+      this.modal = true
     },
-    countBlow(num){
-      let blow = 0
-      for(let i = 0; i < 4; i++){
-        if(this.enemyNum.includes(num.charAt(i))){
-          blow++
-        }
-      }
-      return blow
-    },
-    countHit(num){
-      let hit = 0
-      for(let i = 0; i < 4; i++){
-        if(this.enemyNum.charAt(i) == num.charAt(i)){
-          hit++
-        }
-      }
-      return hit
-    },
-    checkFinish(){
-      if(this.hint.hit == 4){
-        this.isFinished = true
-        return true
-      }
-      return false
+    closeModal() {
+      this.modal = false
     },
     ...mapActions(['addHint', 'clearHint', 'addHistory'])
   },
   created() {
-    this.makeEnemy()
+    this.enemyNum = this.makeEnemy()
   },
   computed: {
     ...mapGetters(['hintCount'])

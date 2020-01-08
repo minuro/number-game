@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-text-field 
-    class="display-1"
     maxlength="4" 
     solo 
     single-line

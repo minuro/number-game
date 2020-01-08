@@ -35,6 +35,7 @@
 import AlertArea from '../components/AlertArea'
 import FireStore from '../js/firestore'
 import Util from '../js/util'
+import {mapActions} from 'vuex'
 
 export default {
   mixins: [FireStore, Util],
@@ -51,15 +52,18 @@ export default {
     makeGame(){
       this.errorMessage = this.checkInputNum(this.roomNo)
       if(!this.errorMessage){
+        this.setPlayerNo(1)
         this.makeRoom(this.roomNo)
       }
     },
     joinGame(){
       this.errorMessage = this.checkInputNum(this.roomNo)
       if(!this.errorMessage){
+        this.setPlayerNo(2)
         this.joinRoom(this.roomNo)
       }
-    }
+    },
+    ...mapActions(['setPlayerNo'])
   }
 }
 </script>

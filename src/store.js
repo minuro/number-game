@@ -7,7 +7,11 @@ export default new Vuex.Store({
   state: {
     hints: [],
     histories: [],
-    roomID: ''
+    roomID: '',
+    enemy: '',
+    playerNo: {
+      type: Number
+    }
   },
   mutations: {
     addHint(state, hint){
@@ -23,7 +27,12 @@ export default new Vuex.Store({
     },
     setRoomID(state, roomID){
       state.roomID = roomID
-      console.log(roomID)
+    },
+    setPlayerNo(state, playerNo){
+      state.playerNo = playerNo
+    },
+    setEnemy(state, enemy){
+      state.enemy = enemy
     }
   },
   actions: {
@@ -37,8 +46,13 @@ export default new Vuex.Store({
       commit('addHistory', history)
     },
     setRoomID({commit}, roomID){
-      console.log(roomID)
       commit('setRoomID', roomID)
+    },
+    setPlayerNo({commit}, playerNo){
+      commit('setRoomID', playerNo)
+    },
+    setEnemy({commit}, enemy){
+      commit('setRoomID', enemy)
     }
   },
   getters: {

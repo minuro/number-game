@@ -21,9 +21,7 @@ import firebase from 'firebase'
 export default {
   data(){
     return{
-      unsubscribe: {
-        type: Function
-      }
+      unsubscribe: Function
     }
   },
   mounted(){

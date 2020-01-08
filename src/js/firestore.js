@@ -28,7 +28,9 @@ export default{
         room.roomNo = roomNo
         room.player1 = 1
         room.player2 = -1
-        room.matchId = ""
+        room.turn -1
+        room.player1Num = ''
+        room.player2Num = ''
         let ref = db.firestore().collection("rooms").doc()
         ref.set(room)
         this.setRoomID(ref.id)
@@ -45,6 +47,23 @@ export default{
           this.dbRoomId = doc.id
           this.setRoomID(this.dbRoomId)
         })
+      })
+    },
+    getEnemy(roomID, playerNo){
+      db.firestore().collection('rooms').doc(roomID).get().then(snapshot => {
+        snapshot.forEach(doc => {
+          if(playerNo == 1){
+            this.setEnemy(doc.player1Num)
+          }
+          else{
+            this.setEnemy(doc.player2Num)
+          }
+        })
+      })
+    },
+    changeTurn(playerNo){
+      db.firestore().collection("rooms").doc(this.$store.state.roomID).update({
+        turn: playerNo
       })
     },
     ...mapActions(['setRoomID'])
